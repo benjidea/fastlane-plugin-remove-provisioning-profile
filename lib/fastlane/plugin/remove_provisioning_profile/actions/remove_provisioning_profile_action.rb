@@ -41,10 +41,12 @@ module Fastlane
           return File.include_two_lines?(mobileprovision, "<key>get-task-allow</key>", "<true/>")
         elsif type == "adhoc"
           return File.include_line?(mobileprovision, "<key>ProvisionedDevices</key>") && File.include_two_lines?(mobileprovision, "<key>get-task-allow</key>", "<false/>")
+        elsif type == "enterprise"
+          return !File.include_line?(mobileprovision, "<key>ProvisionedDevices</key>") && File.include_two_lines?(mobileprovision, "<key>ProvisionsAllDevices</key>", "<true/>")
         elsif type == "appstore"
-          return !File.include_line?(mobileprovision, "<key>ProvisionedDevices</key>")
+          return !File.include_line?(mobileprovision, "<key>ProvisionedDevices</key>") && !File.include_two_lines?(mobileprovision, "<key>ProvisionsAllDevices</key>", "<true/>")
         end
-        raise "Unknown mobileprovision type '#{type}'. Possible values: 'development', 'adhoc', 'appstore'".red
+        raise "Unknown mobileprovision type '#{type}'. Possible values: 'development', 'adhoc', 'enterprise', 'appstore'".red
       end
 
       #####################################################
@@ -73,7 +75,7 @@ module Fastlane
                                        optional: false,
                                        type: String,
                                        verify_block: proc do |value|
-                                         UI.user_error!("Invalid provisioning profile type '#{value}'. Supported types are: 'development', 'adhoc', 'appstore'") unless ["development", "adhoc", "appstore"].include?(value)
+                                         UI.user_error!("Invalid provisioning profile type '#{value}'. Supported types are: 'development', 'adhoc', 'enterprise', 'appstore'") unless ["development", "adhoc", "enterprise", "appstore"].include?(value)
                                        end),
           FastlaneCore::ConfigItem.new(key: :provisioning_profiles_folder,
                                        description: "Folder with provisioning profiles",

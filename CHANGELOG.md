@@ -1,5 +1,9 @@
 ## Master
 
+## 1.0.4
+
+* Adds type `enterprise` -benjidea
+
 ## 1.0.3
 
 * Checks if the given provisioning profiles directory exist - antondomashnev

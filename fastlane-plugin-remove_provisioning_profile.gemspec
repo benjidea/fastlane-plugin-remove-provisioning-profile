@@ -22,5 +22,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rubocop'
-  spec.add_development_dependency 'fastlane', '>= 1.100.0'
+  spec.add_development_dependency 'fastlane', '>= 2.111.0'
 end
